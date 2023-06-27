@@ -21,6 +21,9 @@
     <ClInclude Include="Displayer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Stucture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -36,6 +39,9 @@
       <Filter>源文件\Displayer</Filter>
     </ClCompile>
     <ClCompile Include="Search.cpp">
+      <Filter>源文件\Displayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Count.cpp">
       <Filter>源文件\Displayer</Filter>
     </ClCompile>
   </ItemGroup>

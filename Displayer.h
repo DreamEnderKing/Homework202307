@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Stucture.h"
+
 namespace Displayer
 {
 	int Cover();
