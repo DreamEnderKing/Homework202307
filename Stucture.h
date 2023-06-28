@@ -29,8 +29,6 @@ namespace Stucture
 		void DeleteStudentData(int _id);
 		// 查询课程数据变化并将变化写入修改部分
 		void ScanUpdate(ClassData& _newData);
-		// 按照学号排列课程成绩
-		void ArrangeData();
 		// 保存课程成绩数据库(第二个参数指定是否以文本方式写入)
 		void SaveClassData(std::ofstream& _file, bool _textMode = true);
 		// 友元函数声明
@@ -40,8 +38,6 @@ namespace Stucture
 		const std::string Name; 
 		const int Point;
 	protected:
-		// 是否排序完成
-		bool Arranged = false;
 		// 修改部分单独保存，方便UpdateClass进行处理
 		// Key：修改状态；Value：(学生id，学生新的成绩)
 		std::map<ModifyStatus, std::pair<int, int>> ModifiedList = {};
