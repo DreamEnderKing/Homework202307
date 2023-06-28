@@ -16,6 +16,9 @@
     <Filter Include="源文件\Displayer">
       <UniqueIdentifier>{9ea1e28d-2ba1-4f7c-a55d-8281f078ab60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Structure">
+      <UniqueIdentifier>{1a95bb3c-68e3-4b27-9de9-4f5f528a5cb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Displayer.h">
@@ -26,9 +29,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Cover.cpp">
       <Filter>源文件\Displayer</Filter>
     </ClCompile>
@@ -43,6 +43,18 @@
     </ClCompile>
     <ClCompile Include="Count.cpp">
       <Filter>源文件\Displayer</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassData.cpp">
+      <Filter>源文件\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassInfo.cpp">
+      <Filter>源文件\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="StudentInfo.cpp">
+      <Filter>源文件\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,16 +23,16 @@ namespace Stucture
 		ClassData(int _id, std::string _name, int _point, std::ifstream& _file);
 		// 查询学生成绩（如果不存在返回-1）
 		int GetScore(int _id);
-		// 创建学生条目
-		void AddStudentData(int _id, int _score);
-		// 修改学生条目
-		void ModifyStudentData(int _id, int _score);
+		// 更新学生条目(如果存在则修改，如果不存在则新增)
+		void UpdateStudentData(int _id, int _score);
+		// 删除学生条目(如果不存在则无动作)
+		void DeleteStudentData(int _id);
 		// 查询课程数据变化并将变化写入修改部分
 		void ScanUpdate(ClassData& _newData);
-		// 排序课程成绩
+		// 按照学号排列课程成绩
 		void ArrangeData();
-		// 保存课程成绩数据库
-		void SaveClassData(std::ofstream& _file);
+		// 保存课程成绩数据库(第二个参数指定是否以文本方式写入)
+		void SaveClassData(std::ofstream& _file, bool _textMode = true);
 		// 友元函数声明
 		friend void StudentInfo::UpdateClassData(ClassData& _class);
 		// 课程其他信息
@@ -49,6 +49,27 @@ namespace Stucture
 		// Key：学生id；Value：学生成绩
 		std::map<int, int> StudentList = {};
 	};
+
+	// 学生数据库
+	class StudentInfo
+	{
+	public:
+		// 新建学生数据库
+		StudentInfo();
+		// 通过学生文件读取学生数据库
+		StudentInfo(std::istream& _file);
+		// 获取学生学习课程列表（若不存在返回空列表）
+		std::vector<int> GetClasses(int _id);
+		// 更新课程数据
+		void UpdateClassData(ClassData& _class);
+		// 保存学生数据库
+		void SaveStudentInfo(std::ostream& _file);
+	protected:
+		// 学生数据库
+		// Key：学生id；Value：(平均学分绩，课程列表)
+		std::map<int, std::pair<float, std::vector<std::shared_ptr<ClassData>>>> Data = {};
+	};
+
 
 	// 课程id，名称和学分数据库
 	class ClassInfo
@@ -82,23 +103,4 @@ namespace Stucture
 		std::string BaseUri = "";
 	};
 
-	// 学生数据库
-	class StudentInfo
-	{
-	public:
-		// 新建学生数据库
-		StudentInfo();
-		// 通过学生文件读取学生数据库
-		StudentInfo(std::istream& _file);
-		// 获取学生学习课程列表（若不存在返回空列表）
-		std::vector<int> GetClasses(int _id);
-		// 更新课程数据
-		void UpdateClassData(ClassData& _class);
-		// 保存学生数据库
-		void SaveStudentInfo(std::ostream& _file);
-	protected:
-		// 学生数据库
-		// Key：学生id；Value：(平均学分绩，课程列表)
-		std::map<int, std::pair<float, std::vector<std::shared_ptr<ClassData>>>> Data = {};
-	};
 }
