@@ -1,22 +1,21 @@
-#include "Stucture.h"
+#include "Structure.h"
 #include <iostream>
 #include <algorithm>
 
 using namespace std;
-using namespace Stucture;
+using namespace Structure;
 
-ClassData::ClassData(int _id, std::string _name, int _point, ifstream& _file)
+ClassData::ClassData(const int _id, const std::string _name, const int _point, ifstream& _file)
 	: ID(_id), Name(_name), Point(_point)
 {
-	int lastID = -1;
-	while (!_file.eof() || _file.fail())
+	while (!_file.eof() && !_file.fail())
 	{
 		int id, score;
 		_file >> id >> score;
 		StudentList.emplace(id, score);
 	}
 	if (_file.fail())
-		cout << "课程成绩数据库异常！";
+		MyDebugError("课程成绩数据库异常！");
 }
 
 int ClassData::GetScore(int _id)
@@ -31,12 +30,12 @@ void ClassData::UpdateStudentData(int _id, int _score)
 	if (i == StudentList.end())
 	{
 		StudentList.emplace(_id, _score);
-		ModifiedList.emplace(Added, make_pair(_id, _score));
+		ModifiedList.push_back(ModifyLog(Added, _id, _score));
 	}
 	else
 	{
+		ModifiedList.push_back(ModifyLog(Modified, _id, _score, i->second));
 		i->second = _score;
-		ModifiedList.emplace(Modified, make_pair(_id, _score));
 	}
 }
 
@@ -47,11 +46,11 @@ void ClassData::DeleteStudentData(int _id)
 	{
 		auto _score = i->second;
 		StudentList.erase(_id);
-		ModifiedList.emplace(Deleted, make_pair(_id, _score));
+		ModifiedList.push_back(ModifyLog(Deleted, _id, _score));
 	}
 }
 
-void ClassData::ScanUpdate(ClassData& _newData)
+void ClassData::ScanUpdate(const ClassData& _newData)
 {
 	// 拷贝一份学生数据
 	map<int, int> _new = _newData.StudentList;
@@ -64,15 +63,15 @@ void ClassData::ScanUpdate(ClassData& _newData)
 		{
 			auto _id = i->first, _score = i->second;
 			StudentList.erase(i->first);
-			ModifiedList.emplace(Deleted, make_pair(_id, _score));
+			ModifiedList.push_back(ModifyLog(Deleted, _id, _score));
 		}
 		else
 		{
 			// 如果数据不一致，说明该数据已改动
 			if (i->second != j->second)
 			{
+				ModifiedList.push_back(ModifyLog(Modified, i->first, j->second, i->second));
 				i->second = j->second;
-				ModifiedList.emplace(Modified, make_pair(i->first, j->second));
 			}
 			// 删除已经搜索完成的数据
 			_new.erase(j->first);
@@ -82,12 +81,12 @@ void ClassData::ScanUpdate(ClassData& _newData)
 		{
 			auto _id = j->first, _score = j->second;
 			StudentList.emplace(_id, _score);
-			ModifiedList.emplace(Added, make_pair(_id, _score));
+			ModifiedList.push_back(ModifyLog(Added, _id, _score));
 		}
 	}
 }
 
-void ClassData::SaveClassData(std::ofstream& _file, bool _textMode)
+void ClassData::SaveClassData(std::ofstream& _file, bool _textMode) const
 {
 	for (auto i = StudentList.begin(); i != StudentList.end(); i++)
 	{
@@ -98,4 +97,9 @@ void ClassData::SaveClassData(std::ofstream& _file, bool _textMode)
 		else
 			_file << i->first << i->second;
 	}
+}
+
+std::vector<ModifyLog> ClassData::GetModifiedList() const
+{
+	return ModifiedList;
 }

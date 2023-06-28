@@ -24,7 +24,7 @@
     <ClInclude Include="Displayer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Stucture.h">
+    <ClInclude Include="Structure.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

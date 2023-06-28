@@ -1,13 +1,22 @@
 #pragma once
 
+#ifndef STRUCTURE_H
+#define STRUCTURE_H
+
 #include <vector>
 #include <map>
 #include <string>
 #include <fstream>
+#include <iostream>
 #include <memory>
 
-namespace Stucture
+namespace Structure
 {
+	inline void MyDebugError(std::string message)
+	{
+		std::cout << message << std::endl;
+	}
+
 	enum ModifyStatus
 	{
 		Added = 0,
@@ -15,12 +24,40 @@ namespace Stucture
 		Deleted = 2
 	};
 
+	// 学生初步统计信息
+	struct StudentBriefData
+	{
+		StudentBriefData() {}
+		StudentBriefData(float _avg, int _t)
+		{
+			averageScore = _avg, totalPoint = _t;
+		}
+		float averageScore;
+		int totalPoint;
+	};
+
+	// 修改单元
+	struct ModifyLog
+	{
+		ModifyLog() {}
+		ModifyLog(ModifyStatus _status, int _stu, int _score, int _old = 0)
+		{
+			status = _status, stuId = _stu, score = _score, oldScore = _old;
+		}
+		ModifyStatus status;
+		int stuId, score, oldScore;
+	};
+
+	class ClassData;
+	class StudentInfo;
+	class ClassInfo;
+
 	// 课程成绩数据
 	class ClassData
 	{
 	public:
 		// 通过课程序号，课程名称，课程学分和课程文件初始化课程数据
-		ClassData(int _id, std::string _name, int _point, std::ifstream& _file);
+		ClassData(const int _id, const std::string _name, const int _point, std::ifstream& _file);
 		// 查询学生成绩（如果不存在返回-1）
 		int GetScore(int _id);
 		// 更新学生条目(如果存在则修改，如果不存在则新增)
@@ -28,11 +65,11 @@ namespace Stucture
 		// 删除学生条目(如果不存在则无动作)
 		void DeleteStudentData(int _id);
 		// 查询课程数据变化并将变化写入修改部分
-		void ScanUpdate(ClassData& _newData);
+		void ScanUpdate(const ClassData& _newData);
 		// 保存课程成绩数据库(第二个参数指定是否以文本方式写入)
-		void SaveClassData(std::ofstream& _file, bool _textMode = true);
-		// 友元函数声明
-		friend void StudentInfo::UpdateClassData(ClassData& _class);
+		void SaveClassData(std::ofstream& _file, bool _textMode = true) const;
+		// 获取修改部分
+		std::vector<ModifyLog> GetModifiedList() const;
 		// 课程其他信息
 		const int ID;	
 		const std::string Name; 
@@ -40,7 +77,7 @@ namespace Stucture
 	protected:
 		// 修改部分单独保存，方便UpdateClass进行处理
 		// Key：修改状态；Value：(学生id，学生新的成绩)
-		std::map<ModifyStatus, std::pair<int, int>> ModifiedList = {};
+		std::vector<ModifyLog> ModifiedList = {};
 		// 课程数据库
 		// Key：学生id；Value：学生成绩
 		std::map<int, int> StudentList = {};
@@ -55,17 +92,19 @@ namespace Stucture
 		// 通过学生文件读取学生数据库
 		StudentInfo(std::istream& _file);
 		// 获取学生学习课程列表（若不存在返回空列表）
-		std::vector<int> GetClasses(int _id);
+		std::vector<std::pair<int, std::shared_ptr<ClassData>>> GetClasses(int _id);
 		// 更新课程数据
-		void UpdateClassData(ClassData& _class);
+		void UpdateClassData(const std::shared_ptr<ClassData>& _class);
+		// 链接课程数据库
+		void JoinClassInfo(const std::map<int, std::shared_ptr<ClassData>>& _classInfo);
 		// 保存学生数据库
-		void SaveStudentInfo(std::ostream& _file);
+		void SaveStudentInfo(std::ostream& _file, bool _textMode = true);
 	protected:
-		// 学生数据库
-		// Key：学生id；Value：(平均学分绩，课程列表)
-		std::map<int, std::pair<float, std::vector<std::shared_ptr<ClassData>>>> Data = {};
+		// 学生数据文件库
+		// Key：学生id；Value：(学生简明信息，(课程id，课程本体)列表)
+		// 预留出内存管理空间，在可能的大数据面前允许只加载若干个ClassData
+		std::map<int, std::pair<StudentBriefData, std::vector<std::pair<int, std::shared_ptr<ClassData>>>>> Data = {};
 	};
-
 
 	// 课程id，名称和学分数据库
 	class ClassInfo
@@ -88,11 +127,11 @@ namespace Stucture
 		// 如果课程信息已存在，则更新课程信息
 		void UpdateClassData(ClassData& _data);
 		// 保存学分数据库
-		void SaveClassInfo(std::ofstream& _file);
+		void SaveClassInfo(std::ofstream& _file, bool _textMode = true);
 	protected:
 		// 课程数据库
 		// Key：课程id，Value：课程数据
-		std::map<int, ClassData> Data = {};
+		std::map<int, std::shared_ptr<ClassData>> Data = {};
 		// 绑定的学生数据库
 		StudentInfo* StudentList = nullptr;
 		// 课程数据文件存储基地址
@@ -100,3 +139,5 @@ namespace Stucture
 	};
 
 }
+
+#endif

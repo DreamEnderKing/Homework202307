@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Stucture.h"
+#include "Structure.h"
 
 namespace Displayer
 {

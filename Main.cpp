@@ -8,5 +8,7 @@ int main()
     int branch = 0;
 
     Displayer::Cover();
+
+    system("pause");
     return 0;
 }
