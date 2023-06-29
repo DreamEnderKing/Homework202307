@@ -135,6 +135,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Modify.cpp" />
     <ClCompile Include="Search.cpp" />
+    <ClCompile Include="Snippet.cpp" />
     <ClCompile Include="StudentInfo.cpp" />
   </ItemGroup>
   <ItemGroup>

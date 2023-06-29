@@ -65,7 +65,7 @@ void StudentInfo::UpdateClassData(const shared_ptr<ClassData>& _class)
 			auto j = Data.find(i->stuId);
 			if (j == Data.end())
 			{
-				MyDebugError("学生数据库异常！");
+				Snippet.MyDebugError("学生数据库异常！");
 				break;
 			}
 			auto oldAvg = j->second.first.averageScore;
@@ -78,7 +78,7 @@ void StudentInfo::UpdateClassData(const shared_ptr<ClassData>& _class)
 			auto j = Data.find(i->stuId);
 			if (j == Data.end())
 			{
-				MyDebugError("学生数据库异常！");
+				Snippet.MyDebugError("学生数据库异常！");
 				break;
 			}
 			auto oldAvg = j->second.first.averageScore;

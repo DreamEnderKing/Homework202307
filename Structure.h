@@ -12,10 +12,14 @@
 
 namespace Structure
 {
-	inline void MyDebugError(std::string message)
+	static class __Snippet__
 	{
-		std::cout << message << std::endl;
-	}
+	public:
+		static void MyDebugError(std::string message);
+		static std::string EncodeBase64(std::string content);
+		static std::string DecodeBase64(std::string content);
+		static const std::string to_b64;
+	} Snippet;
 
 	enum ModifyStatus
 	{
@@ -27,7 +31,10 @@ namespace Structure
 	// 学生初步统计信息
 	struct StudentBriefData
 	{
-		StudentBriefData() {}
+		StudentBriefData() 
+		{
+			averageScore = 0, totalPoint = 0;
+		}
 		StudentBriefData(float _avg, int _t)
 		{
 			averageScore = _avg, totalPoint = _t;
@@ -39,7 +46,10 @@ namespace Structure
 	// 修改单元
 	struct ModifyLog
 	{
-		ModifyLog() {}
+		ModifyLog() 
+		{
+			status = Added, stuId = 0, score = 0, oldScore = 0;
+		}
 		ModifyLog(ModifyStatus _status, int _stu, int _score, int _old = 0)
 		{
 			status = _status, stuId = _stu, score = _score, oldScore = _old;
@@ -66,8 +76,12 @@ namespace Structure
 		void DeleteStudentData(int _id);
 		// 查询课程数据变化并将变化写入修改部分
 		void ScanUpdate(const ClassData& _newData);
+		// 将所有数据新增入课程数据变化
+		void InitialUpdate();
+		// 清空课程数据变化
+		void ClearModifiedList();
 		// 保存课程成绩数据库(第二个参数指定是否以文本方式写入)
-		void SaveClassData(std::ofstream& _file, bool _textMode = true) const;
+		void SaveClassData(std::ostream& _file, bool _textMode = true) const;
 		// 获取修改部分
 		std::vector<ModifyLog> GetModifiedList() const;
 		// 课程其他信息
@@ -113,9 +127,9 @@ namespace Structure
 		// 初始化新的课程id，名称和学分数据库
 		ClassInfo();
 		// 通过文件初始化id，名称和学分数据库
-		ClassInfo(std::ifstream& _file);
+		ClassInfo(std::istream& _file);
 		// 链接学生数据库以实现写入记录功能
-		void JoinStudentInfo(StudentInfo& _studentInfo);
+		void JoinStudentInfo(StudentInfo* _studentInfo);
 		// 指定课程数据文件存储基地址
 		// 第二个参数指定文件存储基地址与原地址不同时的行为
 		// 如果为True，则移动所有数据；为False，重新指定地址并刷新StudentData
@@ -127,17 +141,18 @@ namespace Structure
 		// 如果课程信息已存在，则更新课程信息
 		void UpdateClassData(ClassData& _data);
 		// 保存学分数据库
-		void SaveClassInfo(std::ofstream& _file, bool _textMode = true);
+		void SaveClassInfo(std::ostream& _file, bool _textMode = true);
 	protected:
 		// 课程数据库
 		// Key：课程id，Value：课程数据
 		std::map<int, std::shared_ptr<ClassData>> Data = {};
 		// 绑定的学生数据库
-		StudentInfo* StudentList = nullptr;
+		std::shared_ptr<StudentInfo> StudentList = nullptr;
 		// 课程数据文件存储基地址
 		std::string BaseUri = "";
+		// 学生成绩文件地址(相对)
+		std::string StuUri = "Student.dat";
 	};
-
 }
 
 #endif

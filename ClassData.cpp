@@ -15,7 +15,7 @@ ClassData::ClassData(const int _id, const std::string _name, const int _point, i
 		StudentList.emplace(id, score);
 	}
 	if (_file.fail())
-		MyDebugError("课程成绩数据库异常！");
+		Snippet.MyDebugError("课程成绩数据库异常！");
 }
 
 int ClassData::GetScore(int _id)
@@ -48,6 +48,12 @@ void ClassData::DeleteStudentData(int _id)
 		StudentList.erase(_id);
 		ModifiedList.push_back(ModifyLog(Deleted, _id, _score));
 	}
+}
+
+void ClassData::InitialUpdate()
+{
+	for (auto i = StudentList.begin(); i != StudentList.end(); i++)
+		ModifiedList.push_back(ModifyLog(Added, i->first, i->second));
 }
 
 void ClassData::ScanUpdate(const ClassData& _newData)
@@ -86,7 +92,12 @@ void ClassData::ScanUpdate(const ClassData& _newData)
 	}
 }
 
-void ClassData::SaveClassData(std::ofstream& _file, bool _textMode) const
+void ClassData::ClearModifiedList()
+{
+	ModifiedList.clear();
+}
+
+void ClassData::SaveClassData(std::ostream& _file, bool _textMode) const
 {
 	for (auto i = StudentList.begin(); i != StudentList.end(); i++)
 	{
