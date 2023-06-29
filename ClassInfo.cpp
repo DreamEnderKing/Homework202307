@@ -66,11 +66,11 @@ std::vector<ClassItem> ClassInfo::GetStudentData(int _id)
 void ClassInfo::UpdateClassData(ClassData& _data)
 {
 	auto d = Data.find(_data.ID);
-	auto ptr = make_shared<ClassData>(_data);
 	if (d == Data.end())
 	{
-		Data.emplace(_data.ID, ptr);
 		_data.InitialUpdate();
+		auto ptr = make_shared<ClassData>(_data);
+		Data.emplace(_data.ID, ptr);
 		StudentList->UpdateClassData(ptr);
 	}
 	else
@@ -78,6 +78,7 @@ void ClassInfo::UpdateClassData(ClassData& _data)
 		d->second->ScanUpdate(_data);
 		StudentList->UpdateClassData(d->second);
 	}
+	_data.ClearModifiedList();
 }
 
 void ClassInfo::SaveClassInfo(bool _textMode)
@@ -112,4 +113,9 @@ void ClassInfo::SaveClassInfo(bool _textMode)
 		}
 	}
 	_file.close();
+}
+
+void ClassInfo::RefreshStatistics()
+{
+	StudentList->RefreshAverageScore();
 }

@@ -7,6 +7,7 @@ using namespace Displayer;
 int main()
 {
     Structure::ClassInfo info("E:\\bin\\");
+    info.RefreshStatistics();
     // 操作的分支id
     // 0：封面打印；1：录入功能；2：修改功能；3：查询功能；4：统计功能
     int branch = 0;
@@ -32,8 +33,6 @@ int main()
             case 4:
                 branch = Count(info);
                 break;
-            default:
-                info.SaveClassInfo();
             }
         }
         catch (const char* Exception)
@@ -50,5 +49,6 @@ int main()
         }
         std::system("cls");
     }
+    info.SaveClassInfo();
     return 0;
 }

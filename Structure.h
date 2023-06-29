@@ -132,6 +132,8 @@ namespace Structure
 		void UpdateClassData(const std::shared_ptr<ClassData>& _class);
 		// 链接课程数据库
 		void JoinClassInfo(const std::map<int, std::shared_ptr<ClassData>>& _classInfo);
+		// 刷新平均成绩(防止Debug阶段导致的可能误差)
+		void RefreshAverageScore();
 		// 保存学生数据库
 		void SaveStudentInfo(std::ostream& _file, bool _textMode = true);
 	protected:
@@ -151,6 +153,8 @@ namespace Structure
 		ClassInfo(std::string _uri);
 		// 链接学生数据库以实现写入记录功能
 		void JoinStudentInfo(StudentInfo* _studentInfo);
+		// 刷新学生数据库统计信息
+		void RefreshStatistics();
 		// 获取课程成绩数据
 		std::shared_ptr<ClassData> GetClassData(int _id);
 		// 获取学生课程数据

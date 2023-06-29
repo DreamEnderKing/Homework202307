@@ -39,6 +39,7 @@ namespace Displayer
             return 4;
         case 5:
             cout << "是否确认退出？（按下Y确认）" << endl;
+            cin.seekg(ios::end);
             char c;
             cin >> c;
             if (c == 'y' || c == 'Y')
@@ -54,18 +55,6 @@ namespace Displayer
 
 
         
-        /*
-        ClassInfo cInfo = {};
-        auto sInfo = StudentInfo();
-        cInfo.JoinStudentInfo(&sInfo);
-        ClassData d1 = { 1001, "math", 3 };
-        d1.UpdateStudentData(1, 100);
-        d1.UpdateStudentData(2, 80);
-        cInfo.UpdateClassData(d1);
-        cInfo.ChangeBaseUri("E:\\bin\\");
-        cInfo.SaveClassInfo();
-        */
-
         ClassInfo cInfo("E:\\bin\\");
         auto c = cInfo.GetClassData(1001);
         c->UpdateStudentData(3, 80);

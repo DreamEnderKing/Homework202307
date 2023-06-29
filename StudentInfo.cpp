@@ -157,3 +157,18 @@ void StudentInfo::SaveStudentInfo(ostream& _file, bool _textMode)
 		}
 	}
 }
+
+void StudentInfo::RefreshAverageScore()
+{
+	for (auto i = Data.begin(); i != Data.end(); i++)
+	{
+		int t = 0, p = 0;
+		for (auto j = i->second.second.begin(); j != i->second.second.end(); j++)
+		{
+			p += j->second->Point;
+			t += j->second->GetScore(i->first) * j->second->Point;
+		}
+		i->second.first.averageScore = ((float)t) / p;
+		i->second.first.totalPoint = p;
+	}
+}
