@@ -5,7 +5,7 @@ using namespace std;
 
 namespace Displayer
 {
-    int Count()
+    int Count(Structure::ClassInfo& info)
     {
         cout << "这是统计界面。" << endl;
         return 0;

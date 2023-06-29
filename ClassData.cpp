@@ -5,17 +5,24 @@
 using namespace std;
 using namespace Structure;
 
-ClassData::ClassData(const int _id, const std::string _name, const int _point, ifstream& _file)
+ClassData::ClassData(const int _id, const std::string _name, const int _point)
 	: ID(_id), Name(_name), Point(_point)
 {
-	while (!_file.eof() && !_file.fail())
+}
+
+void ClassData::ReadFromStream(istream& _file)
+{
+	while (!_file.eof())
 	{
 		int id, score;
 		_file >> id >> score;
 		StudentList.emplace(id, score);
 	}
-	if (_file.fail())
-		Snippet.MyDebugError("课程成绩数据库异常！");
+}
+
+ClassData::~ClassData()
+{
+
 }
 
 int ClassData::GetScore(int _id)
@@ -82,13 +89,13 @@ void ClassData::ScanUpdate(const ClassData& _newData)
 			// 删除已经搜索完成的数据
 			_new.erase(j->first);
 		}
-		// 如果还存在数据，这部分数据一定是原来没有的
-		for (auto j = _new.begin(); j != _new.end(); j++)
-		{
-			auto _id = j->first, _score = j->second;
-			StudentList.emplace(_id, _score);
-			ModifiedList.push_back(ModifyLog(Added, _id, _score));
-		}
+	}
+	// 如果还存在数据，这部分数据一定是原来没有的
+	for (auto j = _new.begin(); j != _new.end(); j++)
+	{
+		auto _id = j->first, _score = j->second;
+		StudentList.emplace(_id, _score);
+		ModifiedList.push_back(ModifyLog(Added, _id, _score));
 	}
 }
 

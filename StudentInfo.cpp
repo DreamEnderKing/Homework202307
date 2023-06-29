@@ -102,6 +102,18 @@ void StudentInfo::UpdateClassData(const shared_ptr<ClassData>& _class)
 	}
 }
 
+StudentInfo::~StudentInfo()
+{
+	for (auto i = Data.begin(); i != Data.end(); i++)
+	{
+		for (auto j = i->second.second.begin(); j != i->second.second.end(); j++)
+		{
+			j->second.reset();
+		}
+	}
+
+}
+
 void StudentInfo::JoinClassInfo(const map<int, shared_ptr<ClassData>>& _classInfo)
 {
 	for (auto stu = Data.begin(); stu != Data.end(); stu++)

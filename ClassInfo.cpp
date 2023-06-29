@@ -7,13 +7,15 @@ ClassInfo::ClassInfo()
 {
 	BaseUri = ".\\";
 	StudentList = make_shared<StudentInfo>();
-	ofstream stuFile(BaseUri + StuUri);
+	ofstream stuFile(BaseUri + StuUri, ios::trunc);
 	StudentList->SaveStudentInfo(stuFile);
 	stuFile.close();
 }
 
-ClassInfo::ClassInfo(istream& _file)
+ClassInfo::ClassInfo(string _uri)
 {
+	BaseUri = _uri;
+	ifstream _file(BaseUri + "Class.dat", ios::in);
 	// 第一行为基地址(不支持空格)
 	std::string str;
 	_file >> str;
@@ -21,7 +23,7 @@ ClassInfo::ClassInfo(istream& _file)
 	// 第二行为学生列表所在位置(相对于基地址)
 	_file >> str;
 	StuUri = str;
-	ifstream stuFile(BaseUri + StuUri);
+	ifstream stuFile(BaseUri + StuUri, ios::in);
 	StudentList = make_shared<StudentInfo>(stuFile);
 	stuFile.close();
 	// 剩下各行为课程id+课程名称+课程学分
@@ -30,33 +32,35 @@ ClassInfo::ClassInfo(istream& _file)
 	while (!_file.eof() || !_file.fail())
 	{
 		_file >> id >> str >> point;
+		auto classData = make_shared<ClassData>(id, str, point);
 		ifstream classFile(BaseUri + Snippet.EncodeBase64(to_string(id)));
-		auto classData = make_shared<ClassData>(id, str, point, classFile);
+		classData->ReadFromStream(classFile);
 		classFile.close();
 		Data.emplace(id, classData);
 	}
+	StudentList->JoinClassInfo(Data);
 }
 
 void ClassInfo::JoinStudentInfo(StudentInfo* _studentInfo)
 {
 	StudentList = shared_ptr<StudentInfo>(_studentInfo);
-}
-
-void ClassInfo::ChangeBaseUri(string _newUri, bool _moveData)
-{
-	if (_moveData)
-	{
-
-	}
-	else
-	{
-		BaseUri = _newUri;
-	}
+	StudentList->JoinClassInfo(Data);
 }
 
 std::shared_ptr<ClassData> ClassInfo::GetClassData(int _id)
 {
-	return Data[_id];
+	return Data.find(_id) == Data.end() ? nullptr : Data[_id];
+}
+
+std::vector<ClassItem> ClassInfo::GetStudentData(int _id)
+{
+	auto l = StudentList->GetClasses(_id);
+	vector<ClassItem> result = {};
+	for (auto i = l.begin(); i != l.end(); i++)
+	{
+		result.push_back(ClassItem(i->first, i->second->Name, i->second->Point, i->second->GetScore(_id)));
+	}
+	return result;
 }
 
 void ClassInfo::UpdateClassData(ClassData& _data)
@@ -76,9 +80,10 @@ void ClassInfo::UpdateClassData(ClassData& _data)
 	}
 }
 
-void ClassInfo::SaveClassInfo(ostream& _file, bool _textMode)
+void ClassInfo::SaveClassInfo(bool _textMode)
 {
-	ofstream classFile(BaseUri + StuUri);
+	ofstream _file(BaseUri + "Class.dat", ios::trunc);
+	ofstream classFile(BaseUri + StuUri, ios::trunc);
 	StudentList->SaveStudentInfo(classFile, _textMode);
 	classFile.close();
 	if (_textMode)
@@ -90,7 +95,7 @@ void ClassInfo::SaveClassInfo(ostream& _file, bool _textMode)
 			_file << i->first << ' '
 				<< i->second->Name << ' '
 				<< i->second->Point << endl;
-			ofstream classFile(BaseUri + Snippet.EncodeBase64(to_string(i->second->ID)));
+			ofstream classFile(BaseUri + Snippet.EncodeBase64(to_string(i->second->ID)), ios::trunc);
 			i->second->SaveClassData(classFile, _textMode);
 			classFile.close();
 		}
@@ -101,9 +106,10 @@ void ClassInfo::SaveClassInfo(ostream& _file, bool _textMode)
 		for (auto i = Data.begin(); i != Data.end(); i++)
 		{
 			_file << i->first << i->second->Name << i->second->Point;
-			ofstream classFile(BaseUri + Snippet.EncodeBase64(to_string(i->second->ID)));
+			ofstream classFile(BaseUri + Snippet.EncodeBase64(to_string(i->second->ID)), ios::trunc);
 			i->second->SaveClassData(classFile, _textMode);
 			classFile.close();
 		}
 	}
+	_file.close();
 }

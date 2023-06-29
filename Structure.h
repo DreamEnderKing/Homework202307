@@ -58,6 +58,23 @@ namespace Structure
 		int stuId, score, oldScore;
 	};
 
+	// 成绩单单元
+	struct ClassItem
+	{
+		ClassItem()
+		{
+			ID = 0, Name = "", ClassPoint = 0, Point = 0;
+		}
+		ClassItem(int _id, std::string _name, int _classPoint, int _point)
+		{
+			ID = _id, Name = _name, ClassPoint = _classPoint, Point = _point;
+		}
+		int ID;
+		std::string Name;
+		int ClassPoint;
+		int Point;
+	};
+
 	class ClassData;
 	class StudentInfo;
 	class ClassInfo;
@@ -67,7 +84,10 @@ namespace Structure
 	{
 	public:
 		// 通过课程序号，课程名称，课程学分和课程文件初始化课程数据
-		ClassData(const int _id, const std::string _name, const int _point, std::ifstream& _file);
+		ClassData(const int _id, const std::string _name, const int _point);
+		virtual ~ClassData();
+		// 从流中读取数据
+		void ReadFromStream(std::istream& _file);
 		// 查询学生成绩（如果不存在返回-1）
 		int GetScore(int _id);
 		// 更新学生条目(如果存在则修改，如果不存在则新增)
@@ -80,7 +100,7 @@ namespace Structure
 		void InitialUpdate();
 		// 清空课程数据变化
 		void ClearModifiedList();
-		// 保存课程成绩数据库(第二个参数指定是否以文本方式写入)
+		// 保存课程成绩数据库(参数指定是否以文本方式写入)
 		void SaveClassData(std::ostream& _file, bool _textMode = true) const;
 		// 获取修改部分
 		std::vector<ModifyLog> GetModifiedList() const;
@@ -105,6 +125,7 @@ namespace Structure
 		StudentInfo();
 		// 通过学生文件读取学生数据库
 		StudentInfo(std::istream& _file);
+		virtual ~StudentInfo();
 		// 获取学生学习课程列表（若不存在返回空列表）
 		std::vector<std::pair<int, std::shared_ptr<ClassData>>> GetClasses(int _id);
 		// 更新课程数据
@@ -127,21 +148,19 @@ namespace Structure
 		// 初始化新的课程id，名称和学分数据库
 		ClassInfo();
 		// 通过文件初始化id，名称和学分数据库
-		ClassInfo(std::istream& _file);
+		ClassInfo(std::string _uri);
 		// 链接学生数据库以实现写入记录功能
 		void JoinStudentInfo(StudentInfo* _studentInfo);
-		// 指定课程数据文件存储基地址
-		// 第二个参数指定文件存储基地址与原地址不同时的行为
-		// 如果为True，则移动所有数据；为False，重新指定地址并刷新StudentData
-		void ChangeBaseUri(std::string _newUri, bool _moveData = true);
 		// 获取课程成绩数据
 		std::shared_ptr<ClassData> GetClassData(int _id);
+		// 获取学生课程数据
+		std::vector<ClassItem> GetStudentData(int _id);
 		// 更新课程id，名称和学分数据
 		// 如果没有课程信息，则新建课程信息
 		// 如果课程信息已存在，则更新课程信息
 		void UpdateClassData(ClassData& _data);
 		// 保存学分数据库
-		void SaveClassInfo(std::ostream& _file, bool _textMode = true);
+		void SaveClassInfo(bool _textMode = true);
 	protected:
 		// 课程数据库
 		// Key：课程id，Value：课程数据
