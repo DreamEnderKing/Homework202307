@@ -19,7 +19,7 @@ namespace Displayer
             << "         4. 统计系统          " << endl
             << "         5. 退出系统          " << endl << endl
             << string(32, '#') << endl << endl;
-
+        cout << "请输入指令前的数字选项：";
         int i = 0;
         cin >> i;
         if (cin.fail())
@@ -38,7 +38,7 @@ namespace Displayer
             cout << "即将进入统计系统......" << endl;
             return 4;
         case 5:
-            cout << "是否确认退出？（按下Y确认）" << endl;
+            cout << "是否确认退出(y/n)？" << endl;
             cin.seekg(ios::end);
             char c;
             cin >> c;

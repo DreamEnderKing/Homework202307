@@ -100,6 +100,10 @@ namespace Structure
 		void InitialUpdate();
 		// 清空课程数据变化
 		void ClearModifiedList();
+		// 统计单项学分绩在该区间的学生
+		std::vector<std::pair<int, float>> CountAverageBetween(float min, float max);
+		// 统计单项课程平均学分绩
+		float GetAverageScore();
 		// 保存课程成绩数据库(参数指定是否以文本方式写入)
 		void SaveClassData(std::ostream& _file, bool _textMode = true) const;
 		// 获取修改部分
@@ -134,6 +138,8 @@ namespace Structure
 		void JoinClassInfo(const std::map<int, std::shared_ptr<ClassData>>& _classInfo);
 		// 刷新平均成绩(防止Debug阶段导致的可能误差)
 		void RefreshAverageScore();
+		// 统计平均学分绩在该区间的学生
+		std::vector<std::pair<int, float>> CountAverageBetween(float min, float max);
 		// 保存学生数据库
 		void SaveStudentInfo(std::ostream& _file, bool _textMode = true);
 	protected:
@@ -155,6 +161,8 @@ namespace Structure
 		void JoinStudentInfo(StudentInfo* _studentInfo);
 		// 刷新学生数据库统计信息
 		void RefreshStatistics();
+		// 统计平均学分绩在该区间的学生
+		std::vector<std::pair<int, float>> CountAverageBetween(float min, float max);
 		// 获取课程成绩数据
 		std::shared_ptr<ClassData> GetClassData(int _id);
 		// 获取学生课程数据

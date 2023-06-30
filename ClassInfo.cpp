@@ -119,3 +119,8 @@ void ClassInfo::RefreshStatistics()
 {
 	StudentList->RefreshAverageScore();
 }
+
+vector<pair<int, float>> ClassInfo::CountAverageBetween(float min, float max)
+{
+	return StudentList->CountAverageBetween(min, max);
+}

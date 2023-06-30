@@ -15,6 +15,7 @@ namespace Displayer
             << "         2. 手动录入          " << endl
             << "         3. 停止录入          " << endl
             << string(32, '#') << endl << endl;
+        cout << "请输入指令前的数字选项：";
         int i = 0;
         cin >> i;
         if (cin.fail())

@@ -14,6 +14,8 @@ namespace Displayer
         int id, stuId;
         cout << "请输入课程ID(输入负数以退出)：" << endl;
         cin >> id;
+        if (cin.fail())
+            throw "不合法的输入数据，请重新输入";
         if (id < 0)
             return 0;
         auto cl = info.GetClassData(id);
@@ -25,6 +27,8 @@ namespace Displayer
         }
         cout << "请输入学生ID：" << endl;
         cin >> stuId;
+        if (cin.fail())
+            throw "不合法的输入数据，请重新输入";
         int i = cl->GetScore(stuId);
         if (i < 0)
         {

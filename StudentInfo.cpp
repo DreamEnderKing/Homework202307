@@ -172,3 +172,15 @@ void StudentInfo::RefreshAverageScore()
 		i->second.first.totalPoint = p;
 	}
 }
+
+vector<pair<int, float>> StudentInfo::CountAverageBetween(float min, float max)
+{
+	vector<pair<int, float>> result = {};
+	for (auto i = Data.begin(); i != Data.end(); i++)
+	{
+		if (((i->second.first.averageScore >= min) || min < 0)
+			&& ((i->second.first.averageScore <= max) || max < 0))
+			result.push_back(make_pair(i->first, i->second.first.averageScore));
+	}
+	return result;
+}

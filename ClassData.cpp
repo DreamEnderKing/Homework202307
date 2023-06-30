@@ -121,3 +121,23 @@ std::vector<ModifyLog> ClassData::GetModifiedList() const
 {
 	return ModifiedList;
 }
+
+std::vector<std::pair<int, float>> ClassData::CountAverageBetween(float min, float max)
+{
+	vector<pair<int, float>> result = {};
+	for (auto i = StudentList.begin(); i != StudentList.end(); i++)
+	{
+		if (((i->second >= min) || min < 0)
+			&& ((i->second <= max) || max < 0))
+			result.push_back(make_pair(i->first, i->second));
+	}
+	return result;
+}
+
+float Structure::ClassData::GetAverageScore()
+{
+	float t = 0;
+	for (auto i = StudentList.begin(); i != StudentList.end(); i++)
+		t += i->second;
+	return t / StudentList.size();
+}
