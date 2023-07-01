@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <stdexcept>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -153,10 +154,8 @@ namespace Structure
 	class ClassInfo
 	{
 	public:
-		// 初始化新的课程id，名称和学分数据库
-		ClassInfo();
 		// 通过文件初始化id，名称和学分数据库
-		ClassInfo(std::string _uri);
+		ClassInfo(std::string _uri, bool initial = false);
 		// 链接学生数据库以实现写入记录功能
 		void JoinStudentInfo(StudentInfo* _studentInfo);
 		// 刷新学生数据库统计信息

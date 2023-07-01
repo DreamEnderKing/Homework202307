@@ -3,27 +3,21 @@
 using namespace std;
 using namespace Structure;
 
-ClassInfo::ClassInfo()
-{
-	BaseUri = ".\\";
-	StudentList = make_shared<StudentInfo>();
-	ofstream stuFile(BaseUri + StuUri, ios::trunc);
-	StudentList->SaveStudentInfo(stuFile);
-	stuFile.close();
-}
-
-ClassInfo::ClassInfo(string _uri)
+ClassInfo::ClassInfo(string _uri, bool initial)
 {
 	BaseUri = _uri;
-	ifstream _file(BaseUri + "Class.dat", ios::in);
-	// 第一行为基地址(不支持空格)
+	if (initial)
+	{
+		StudentList = make_shared<StudentInfo>();
+		SaveClassInfo();
+		return;
+	}
+	ifstream _file(BaseUri + "\\Class.dat", ios::in);
+	// 第一行为学生列表所在位置(相对于基地址)
 	std::string str;
 	_file >> str;
-	BaseUri = str;
-	// 第二行为学生列表所在位置(相对于基地址)
-	_file >> str;
 	StuUri = str;
-	ifstream stuFile(BaseUri + StuUri, ios::in);
+	ifstream stuFile(BaseUri + '\\' + StuUri, ios::in);
 	StudentList = make_shared<StudentInfo>(stuFile);
 	stuFile.close();
 	// 剩下各行为课程id+课程名称+课程学分
@@ -33,7 +27,7 @@ ClassInfo::ClassInfo(string _uri)
 	{
 		_file >> id >> str >> point;
 		auto classData = make_shared<ClassData>(id, str, point);
-		ifstream classFile(BaseUri + Snippet.EncodeBase64(to_string(id)));
+		ifstream classFile(BaseUri + '\\' + Snippet.EncodeBase64(to_string(id)));
 		classData->ReadFromStream(classFile);
 		classFile.close();
 		Data.emplace(id, classData);
@@ -83,20 +77,19 @@ void ClassInfo::UpdateClassData(ClassData& _data)
 
 void ClassInfo::SaveClassInfo(bool _textMode)
 {
-	ofstream _file(BaseUri + "Class.dat", ios::trunc);
-	ofstream classFile(BaseUri + StuUri, ios::trunc);
+	ofstream _file(BaseUri + "\\Class.dat", ios::trunc);
+	ofstream classFile(BaseUri + '\\' + StuUri, ios::trunc);
 	StudentList->SaveStudentInfo(classFile, _textMode);
 	classFile.close();
 	if (_textMode)
 	{
-		_file << BaseUri << endl;
 		_file << StuUri << endl;
 		for (auto i = Data.begin(); i != Data.end(); i++)
 		{
 			_file << i->first << ' '
 				<< i->second->Name << ' '
 				<< i->second->Point << endl;
-			ofstream classFile(BaseUri + Snippet.EncodeBase64(to_string(i->second->ID)), ios::trunc);
+			ofstream classFile(BaseUri + '\\' + Snippet.EncodeBase64(to_string(i->second->ID)), ios::trunc);
 			i->second->SaveClassData(classFile, _textMode);
 			classFile.close();
 		}
@@ -107,7 +100,7 @@ void ClassInfo::SaveClassInfo(bool _textMode)
 		for (auto i = Data.begin(); i != Data.end(); i++)
 		{
 			_file << i->first << i->second->Name << i->second->Point;
-			ofstream classFile(BaseUri + Snippet.EncodeBase64(to_string(i->second->ID)), ios::trunc);
+			ofstream classFile(BaseUri + '\\' + Snippet.EncodeBase64(to_string(i->second->ID)), ios::trunc);
 			i->second->SaveClassData(classFile, _textMode);
 			classFile.close();
 		}

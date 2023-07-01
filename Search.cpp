@@ -34,7 +34,7 @@ namespace Displayer
             if (list.size() == 0)
             {
                 cout << "学生暂无成绩记录或ID错误，请检查输入。" << endl;
-                sleep(2000);
+                system("pause");
                 return 3;
             }
             cout << endl << string(32, '-') << endl << endl;
@@ -71,7 +71,7 @@ namespace Displayer
             if (_list == nullptr)
             {
                 cout << "课程暂无成绩记录或ID错误，请检查输入。" << endl;
-                sleep(2000);
+                system("pause");
                 return 3;
             }
             auto list = _list->CountAverageBetween(-1, -1);
@@ -123,7 +123,7 @@ namespace Displayer
             if (list.size() == 0)
             {
                 cout << "学生暂无成绩记录或ID错误，请检查输入。" << endl;
-                sleep(2000);
+                system("pause");
                 return 3;
             }
             cout << "数据表格式：" << "课程ID 绩点 成绩" << endl;
@@ -147,7 +147,7 @@ namespace Displayer
             if (_list == nullptr)
             {
                 cout << "课程暂无成绩记录或ID错误，请检查输入。" << endl;
-                sleep(2000);
+                system("pause");
                 return 3;
             }
             auto list = _list->CountAverageBetween(-1, -1);

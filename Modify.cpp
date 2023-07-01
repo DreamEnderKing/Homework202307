@@ -22,7 +22,7 @@ namespace Displayer
         if (cl == nullptr)
         {
             cout << "课程ID不存在，如要添加，请前往录入界面。" << endl;
-            sleep(2000);
+            system("pause");
             return 1;
         }
         cout << "请输入学生ID：" << endl;
@@ -43,7 +43,7 @@ namespace Displayer
                 cl->UpdateStudentData(stuId, i);
                 info.UpdateClassData(*cl);
                 cout << "数据新增完毕。" << endl;
-                sleep(2000);
+                system("pause");
             }
             return 2;
         }
@@ -60,7 +60,7 @@ namespace Displayer
                 cl->UpdateStudentData(stuId, i);
                 info.UpdateClassData(*cl);
                 cout << "数据修改完毕。" << endl;
-                sleep(2000);
+                system("pause");
             }
             return 2;
         }

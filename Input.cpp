@@ -38,8 +38,8 @@ namespace Displayer
             Structure::ClassData data(id, name, point);
             data.ReadFromStream(file);
             info.UpdateClassData(data);
-            cout << "数据录入完毕。";
-            sleep(2000);
+            cout << "数据录入完毕。" << endl;
+            system("pause");
             return 1;
             break;
         }
@@ -71,8 +71,8 @@ namespace Displayer
                 data.UpdateStudentData(stuId, point);
             }
             info.UpdateClassData(data);
-            cout << "数据录入完毕。";
-            sleep(2000);
+            cout << "数据录入完毕。" << endl;
+            system("pause");
             return 1;
             break;
         }

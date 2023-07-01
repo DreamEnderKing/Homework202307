@@ -127,6 +127,10 @@ Structure各类和结构体层次图为：
 ## 结果分析
 ----
 
+第一次运行会弹出初始加载引导界面，根据用户指定的路径创建数据库，并且将该路径写入到注册表中。注册表路径为：
+
+`HKEY_CURRENT_USER\Software\DreamEnderKing\Project2023Summer\path`
+
 测试数据文件位于test文件夹下，将其复制到E:\bin文件夹下以正常工作。
 
 以下为运行截图：
