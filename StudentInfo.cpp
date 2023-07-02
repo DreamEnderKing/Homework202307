@@ -184,3 +184,11 @@ vector<pair<int, float>> StudentInfo::CountAverageBetween(float min, float max)
 	}
 	return result;
 }
+
+void StudentInfo::DeleteClassData(int _id)
+{
+	for (auto i = Data.begin(); i != Data.end(); i++)
+		for (auto j = i->second.second.begin(); j != i->second.second.end(); j++)
+			if(j->first == _id)
+				i->second.second.erase(j);
+}

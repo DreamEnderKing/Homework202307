@@ -135,6 +135,8 @@ namespace Structure
 		std::vector<std::pair<int, std::shared_ptr<ClassData>>> GetClasses(int _id);
 		// 更新课程数据
 		void UpdateClassData(const std::shared_ptr<ClassData>& _class);
+		// 删除所有与该课程ID关联的信息
+		void DeleteClassData(int _id);
 		// 链接课程数据库
 		void JoinClassInfo(const std::map<int, std::shared_ptr<ClassData>>& _classInfo);
 		// 刷新平均成绩(防止Debug阶段导致的可能误差)

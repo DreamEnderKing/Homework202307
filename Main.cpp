@@ -93,6 +93,16 @@ int main()
         catch(const char* Exception)
         {
             cout << "Fatal Error: " << Exception << endl;
+            cout << "是否重新注册(y/n)？" << endl;
+            cin.seekg(ios::end);
+            char c;
+            cin >> c;
+            if (!(c == 'y' || c == 'Y'))
+            {
+                cout << "用户已取消注册，程序异常终止。" << endl;
+                system("pause");
+                return -1;
+            }
             // 重新注册
             cout << "请输入新的路径：" << endl;
             cin.seekg(ios::end);

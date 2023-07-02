@@ -27,7 +27,24 @@ ClassInfo::ClassInfo(string _uri, bool initial)
 	{
 		_file >> id >> str >> point;
 		auto classData = make_shared<ClassData>(id, str, point);
-		ifstream classFile(BaseUri + '\\' + Snippet.EncodeBase64(to_string(id)));
+		string p = BaseUri + '\\' + Snippet.EncodeBase64(to_string(id));
+		ifstream classFile(p);
+		if (!classFile.is_open())
+		{
+			cout << "课程ID：" << id << "的数据文件无法打开！" << endl
+				<< "对应的文件为：" << p << endl
+				<< "是否将该课程从课程数据库中删除(y/n)？" << endl;
+			cin.seekg(ios::end);
+			char c;
+			cin >> c;
+			if (c == 'y' || c == 'Y')
+			{
+				StudentList->DeleteClassData(id);
+				break;
+			}
+			else
+				throw "课程数据库文件出现错误，用户已取消修复操作。";
+		}
 		classData->ReadFromStream(classFile);
 		classFile.close();
 		Data.emplace(id, classData);
