@@ -1,7 +1,6 @@
 # 学生成绩管理系统设计书
-====
 
-作者：张琨，无24，2022010606
+[Github传送门](https://github.com/DreamEnderKing/Homework202307)
 
 ## 目录
 
