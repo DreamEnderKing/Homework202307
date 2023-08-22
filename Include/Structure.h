@@ -182,8 +182,6 @@ namespace Structure
 		std::shared_ptr<StudentInfo> StudentList = nullptr;
 		// 课程数据文件存储基地址
 		std::string BaseUri = "";
-		// 学生成绩文件地址(相对)
-		std::string StuUri = "Student.dat";
 	};
 }
 

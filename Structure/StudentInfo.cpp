@@ -1,4 +1,4 @@
-#include "Structure.h"
+#include "..\Include\Structure.h"
 
 using namespace std;
 using namespace Structure;
@@ -19,7 +19,7 @@ StudentInfo::StudentInfo(istream& _file)
 		while(true)
 		{
 			_file >> classId;
-			if (classId == -1)
+			if (_file.eof() || _file.fail() || classId == -1)
 				break;
 			c.push_back(make_pair(classId, nullptr));
 		}

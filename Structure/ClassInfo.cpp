@@ -1,4 +1,4 @@
-#include "Structure.h"
+#include "..\Include\Structure.h"
 
 using namespace std;
 using namespace Structure;
@@ -13,19 +13,18 @@ ClassInfo::ClassInfo(string _uri, bool initial)
 		return;
 	}
 	ifstream _file(BaseUri + "\\Class.dat", ios::in);
-	// 第一行为学生列表所在位置(相对于基地址)
-	std::string str;
-	_file >> str;
-	StuUri = str;
-	ifstream stuFile(BaseUri + '\\' + StuUri, ios::in);
+	ifstream stuFile(BaseUri + "\\Student.dat", ios::in);
 	StudentList = make_shared<StudentInfo>(stuFile);
 	stuFile.close();
 	// 剩下各行为课程id+课程名称+课程学分
 	int id, point;
+	string str = "";
 	char* buffer = new char[sizeof(int) / sizeof(char)];
-	while (!_file.eof() || !_file.fail())
+	while (true)
 	{
 		_file >> id >> str >> point;
+		if (_file.eof() || _file.fail())
+			break;
 		auto classData = make_shared<ClassData>(id, str, point);
 		string p = BaseUri + '\\' + Snippet.EncodeBase64(to_string(id));
 		ifstream classFile(p);
@@ -95,12 +94,11 @@ void ClassInfo::UpdateClassData(ClassData& _data)
 void ClassInfo::SaveClassInfo(bool _textMode)
 {
 	ofstream _file(BaseUri + "\\Class.dat", ios::trunc);
-	ofstream classFile(BaseUri + '\\' + StuUri, ios::trunc);
+	ofstream classFile(BaseUri + "\\Student.dat", ios::trunc);
 	StudentList->SaveStudentInfo(classFile, _textMode);
 	classFile.close();
 	if (_textMode)
 	{
-		_file << StuUri << endl;
 		for (auto i = Data.begin(); i != Data.end(); i++)
 		{
 			_file << i->first << ' '
@@ -113,7 +111,6 @@ void ClassInfo::SaveClassInfo(bool _textMode)
 	}
 	else
 	{
-		_file << BaseUri << StuUri;
 		for (auto i = Data.begin(); i != Data.end(); i++)
 		{
 			_file << i->first << i->second->Name << i->second->Point;

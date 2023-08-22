@@ -1,4 +1,4 @@
-#include "Structure.h"
+#include "..\Include\Structure.h"
 #include <iostream>
 #include <algorithm>
 

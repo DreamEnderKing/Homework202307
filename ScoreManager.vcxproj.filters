@@ -19,45 +19,60 @@
     <Filter Include="源文件\Structure">
       <UniqueIdentifier>{1a95bb3c-68e3-4b27-9de9-4f5f528a5cb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Register">
+      <UniqueIdentifier>{2127eb0a-4931-444f-b763-0dddefe63f1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Displayer.h">
+    <ClInclude Include="Include\Displayer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Structure.h">
+    <ClInclude Include="Include\Structure.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Register.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cover.cpp">
+    <ClCompile Include="Displayer\Cover.cpp">
       <Filter>源文件\Displayer</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
+    <ClCompile Include="Displayer\Input.cpp">
       <Filter>源文件\Displayer</Filter>
     </ClCompile>
-    <ClCompile Include="Modify.cpp">
+    <ClCompile Include="Displayer\Modify.cpp">
       <Filter>源文件\Displayer</Filter>
     </ClCompile>
-    <ClCompile Include="Search.cpp">
+    <ClCompile Include="Displayer\Search.cpp">
       <Filter>源文件\Displayer</Filter>
     </ClCompile>
-    <ClCompile Include="Count.cpp">
+    <ClCompile Include="Displayer\Count.cpp">
       <Filter>源文件\Displayer</Filter>
     </ClCompile>
-    <ClCompile Include="ClassData.cpp">
+    <ClCompile Include="Structure\ClassData.cpp">
       <Filter>源文件\Structure</Filter>
     </ClCompile>
-    <ClCompile Include="ClassInfo.cpp">
+    <ClCompile Include="Structure\ClassInfo.cpp">
       <Filter>源文件\Structure</Filter>
     </ClCompile>
-    <ClCompile Include="StudentInfo.cpp">
+    <ClCompile Include="Structure\StudentInfo.cpp">
       <Filter>源文件\Structure</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Snippet.cpp">
+    <ClCompile Include="Structure\Snippet.cpp">
       <Filter>源文件\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="Register\FindKey.cpp">
+      <Filter>源文件\Register</Filter>
+    </ClCompile>
+    <ClCompile Include="Register\CreateKey.cpp">
+      <Filter>源文件\Register</Filter>
+    </ClCompile>
+    <ClCompile Include="Register\FileExists.cpp">
+      <Filter>源文件\Register</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

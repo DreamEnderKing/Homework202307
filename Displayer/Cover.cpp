@@ -1,6 +1,6 @@
 #include <iostream>
 #include <strstream>
-#include "Displayer.h"
+#include "..\Include\Displayer.h"
 
 using namespace Structure;
 using namespace std;
