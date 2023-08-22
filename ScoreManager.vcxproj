@@ -127,20 +127,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ClassData.cpp" />
-    <ClCompile Include="ClassInfo.cpp" />
-    <ClCompile Include="Count.cpp" />
-    <ClCompile Include="Cover.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Register\CreateKey.cpp" />
+    <ClCompile Include="Register\FileExists.cpp" />
+    <ClCompile Include="Structure\ClassData.cpp" />
+    <ClCompile Include="Structure\ClassInfo.cpp" />
+    <ClCompile Include="Displayer\Count.cpp" />
+    <ClCompile Include="Displayer\Cover.cpp" />
+    <ClCompile Include="Register\FindKey.cpp" />
+    <ClCompile Include="Displayer\Input.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Modify.cpp" />
-    <ClCompile Include="Search.cpp" />
-    <ClCompile Include="Snippet.cpp" />
-    <ClCompile Include="StudentInfo.cpp" />
+    <ClCompile Include="Displayer\Modify.cpp" />
+    <ClCompile Include="Displayer\Search.cpp" />
+    <ClCompile Include="Structure\Snippet.cpp" />
+    <ClCompile Include="Structure\StudentInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Displayer.h" />
-    <ClInclude Include="Structure.h" />
+    <ClInclude Include="Include\Displayer.h" />
+    <ClInclude Include="Include\Register.h" />
+    <ClInclude Include="Include\Structure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
